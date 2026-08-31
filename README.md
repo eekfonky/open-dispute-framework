@@ -10,19 +10,24 @@ Workplace disputes are among the most stressful events in a person's life. When 
 
 General-purpose AI can help, but commodity chatbots come with dangerous risks: they hallucinate laws from the wrong countries, invent non-existent statutory rights, and garble financial arithmetic.
 
-**Open Dispute Framework (ODF)** is an open-source, mathematically grounded toolkit that turns any AI agent (Claude, Cursor, Codex, or a local model) into a precise, disciplined legal research and evidentiary compilation assistant. It replaces guesswork with **deterministic verification gates**, **service qualification checks**, **evidentiary tiering**, and **zero-dependency test suites**.
+**Open Dispute Framework (ODF)** is an open-source, mathematically grounded toolkit that turns any AI agent (Claude Code, Cursor, Codex, ChatGPT, or local models) into a precise, disciplined legal research and evidentiary compilation assistant. It replaces guesswork with **deterministic verification gates**, **service qualification checks**, **evidentiary tiering**, and **zero-dependency test suites**.
 
 ---
 
-## 🛡️ Core Guarantees & Features
+## 📋 First-Run Checklist: What to Gather
 
-* 🧮 **Exact Financial Arithmetic:** All holiday pay, notice pay (PILON), monthly gross wages, and ex-gratia sums must balance to the penny via `tools/verify_facts.py`.
-* ⏱️ **Limitation Fuse Clocks:** Deterministically computes statutory deadlines (e.g. ACAS 3-month Early Conciliation limits in the UK, the 10-day settlement consideration window, and whistleblowing interim relief fuses).
-* 🚪 **Statutory Service Gates:** Calculates continuous employment service to prevent the AI from asserting rights requiring qualifying service (e.g. 2-year unfair dismissal in the UK), automatically forcing the agent to focus on Day-1 statutory protections (Whistleblowing Detriment, Equality Act / Discrimination, Health & Safety, and Unlawful Wage Deductions).
-* 🌍 **Dynamic Legal Ingestion (Worldwide):** Gathers and verifies primary labour statutes, dispute bodies, and sector regulators dynamically for **any country or region** across the globe without hardcoded regional bias.
-* 📑 **4-Tier Evidentiary Classification:** Strictly separates contemporaneous proof (T1), recollection (T2), employer assertions (T3), and legal analysis (A).
-* 🔒 **Without-Prejudice Quarantine:** Quarantines protected settlement discussions (`without_prejudice/`) to prevent them from contaminating open grievance letters or tribunal claim drafts.
-* 🛡️ **Zero-Regex Privacy Verification:** Uses deterministic Luhn checksums and structural token analysis to prevent accidental leaks of National Insurance numbers, bank details, and payment cards.
+Before starting, gather the following documents and place them in the project folders:
+
+1. 📄 **Employment Contract / Statement of Terms:**
+   * Place in `evidence/documents/`. Needed to verify notice periods, hours, pay rates, and job duties.
+2. 📘 **Workplace Policies & Staff Handbook:**
+   * Place in `evidence/documents/`. Specifically the **Grievance Policy**, **Disciplinary Procedure**, and **Sickness/Absence Policy**.
+3. 💰 **Recent Payslips (Last 3 Months):**
+   * Place in `evidence/documents/`. Needed to verify hourly rate, contracted hours, and gross monthly pay.
+4. ✉️ **Contemporaneous Evidence:**
+   * Place in `evidence/documents/`. Emails, WhatsApp messages, calendar entries, and GP fit notes from the time of incidents.
+5. 🔒 **Settlement Proposals / Severance Letters:**
+   * Place in `without_prejudice/`. Any letters marked *"Without Prejudice"* or *"s.111A Pre-termination Negotiations"*.
 
 ---
 
@@ -53,12 +58,31 @@ If you have a terminal or code editor:
 
 ---
 
-### Option B: Standalone Web Chatbot (No Installation Needed)
+### Option B: Autonomous AI Agents (Claude Code, Cursor, Codex, Hermes)
+If you open this repository in an AI-powered coding tool:
+* The agent will automatically read **`AGENTS.md`**.
+* If `evidence/facts.json` is not yet populated, the agent will **automatically welcome you and ask the 5 initial setup questions** and help extract facts from your uploaded contract and payslips.
+
+---
+
+### Option C: Standalone Web Chatbot (No Installation Needed)
 If you do not have Python or Git, you can use ODF inside **Claude, ChatGPT, or Gemini**:
 
 1. Open **`ODF_STANDALONE_PROMPT.md`**.
 2. Copy the prompt block and paste it into your AI chat.
 3. The AI will immediately enforce all ODF arithmetic rules, statutory service gates, and anti-hallucination boundaries.
+
+---
+
+## 🛡️ Core Guarantees & Features
+
+* 🧮 **Exact Financial Arithmetic:** All holiday pay, notice pay (PILON), monthly gross wages, and ex-gratia sums must balance to the penny via `tools/verify_facts.py`.
+* ⏱️ **Limitation Fuse Clocks:** Deterministically computes statutory deadlines (e.g. ACAS 3-month Early Conciliation limits in the UK, the 10-day settlement consideration window, and whistleblowing interim relief fuses).
+* 🚪 **Statutory Service Gates:** Calculates continuous employment service to prevent the AI from asserting rights requiring qualifying service (e.g. 2-year unfair dismissal in the UK), automatically forcing the agent to focus on Day-1 statutory protections (Whistleblowing Detriment, Equality Act / Discrimination, Health & Safety, and Unlawful Wage Deductions).
+* 🌍 **Dynamic Legal Ingestion (Worldwide):** Gathers and verifies primary labour statutes, dispute bodies, and sector regulators dynamically for **any country or region** across the globe without hardcoded regional bias.
+* 📑 **4-Tier Evidentiary Classification:** Strictly separates contemporaneous proof (T1), recollection (T2), employer assertions (T3), and legal analysis (A).
+* 🔒 **Without-Prejudice Quarantine:** Quarantines protected settlement discussions (`without_prejudice/`) to prevent them from contaminating open grievance letters or tribunal claim drafts.
+* 🛡️ **Zero-Regex Privacy Verification:** Uses deterministic Luhn checksums and structural token analysis to prevent accidental leaks of National Insurance numbers, bank details, and payment cards.
 
 ---
 
@@ -74,6 +98,7 @@ open-dispute-framework/
 ├── case/                       # Append-only case history & logs
 │   └── log.md                  # Chronological dispute ledger
 ├── evidence/                   # Facts & documentary evidence
+│   ├── documents/              # Place contracts, policies, payslips, emails here
 │   ├── facts.json              # Single source of financial & employment truth
 │   └── schedule.md             # Exhibit index matrix ([E1], [E2]...)
 ├── jurisdictions/              # Dynamic legal grounding specifications
