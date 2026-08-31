@@ -13,7 +13,7 @@ ROOT_DIR = Path(__file__).parent.parent
 
 # Regex Patterns for Common PII
 PATTERNS = {
-    "UK National Insurance Number": re.compile(r"\b[A-CEGHJ-PR-TW-Z]{2}\s*\d{2}\s*\d{2}\s*\d{2}\s*[A-D]\b", re.I),
+    "UK National Insurance Number": re.compile(r"\b[A-Z]{2}\s*\d{2}\s*\d{2}\s*\d{2}\s*[A-D]\b", re.I),
     "UK Bank Sort Code": re.compile(r"\b\d{2}-\d{2}-\d{2}\b|\b\d{2}\s\d{2}\s\d{2}\b"),
     "UK Bank Account Number (8 digits)": re.compile(r"\b(Account|Acc|A/C)?\s*[:#]?\s*(\d{8})\b", re.I),
     "Credit/Debit Card (16 digits)": re.compile(r"\b(?:\d{4}[-\s]?){3}\d{4}\b"),
