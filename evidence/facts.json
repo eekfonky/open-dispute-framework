@@ -1,0 +1,32 @@
+{
+  "_comment": "Ground truth facts for AI agents.",
+  "jurisdiction": {
+    "name": "Scotland",
+    "sector": "Care / Social Care",
+    "limitation_months": 3
+  },
+  "employment": {
+    "start_date": "2025-04-21",
+    "calculated_service_months": 16,
+    "continuous_service_over_2_years": false
+  },
+  "remuneration": {
+    "contracted_weekly_hours": 25.0,
+    "hourly_rate": 13.45,
+    "monthly_gross": 1457.08
+  },
+  "dates": {
+    "last_incident_or_dismissal": "2026-06-12",
+    "settlement_proposal_served": "2026-08-27"
+  },
+  "settlement_terms": {
+    "offered": true,
+    "ex_gratia_amount": 3922.0,
+    "holiday_pay_hours": 99.0,
+    "holiday_pay_amount": 1331.0,
+    "notice_weeks": 1,
+    "notice_pay_amount": 336.25,
+    "total_gross_package": 5589.25,
+    "employer_legal_contribution": 350.0
+  }
+}
