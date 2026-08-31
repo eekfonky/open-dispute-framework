@@ -4,7 +4,7 @@
 
 ---
 
-## 🌟 The Vision
+## 🌟 The Mission
 
 Workplace disputes are among the most stressful events in a person's life. When an employee faces unfair treatment, constructive dismissal, or a sudden settlement agreement, the playing field is heavily tilted: employers have dedicated HR departments, retained solicitors, and institutional leverage, while the worker is often left alone.
 
@@ -14,20 +14,53 @@ General-purpose AI can help, but commodity chatbots come with dangerous risks: t
 
 ---
 
-## 📋 First-Run Checklist: What to Gather
+## 🎬 What to Expect on Your First Run
 
-Before starting, gather the following documents and place them in the project folders:
+Whether you run ODF via the interactive Python wizard or open this repository with an AI coding assistant (like Claude Code, Cursor, or Codex), here is what the onboarding process looks like from start to finish:
 
-1. 📄 **Employment Contract / Statement of Terms:**
-   * Place in `evidence/documents/`. Needed to verify notice periods, hours, pay rates, and job duties.
-2. 📘 **Workplace Policies & Staff Handbook:**
-   * Place in `evidence/documents/`. Specifically the **Grievance Policy**, **Disciplinary Procedure**, and **Sickness/Absence Policy**.
-3. 💰 **Recent Payslips (Last 3 Months):**
-   * Place in `evidence/documents/`. Needed to verify hourly rate, contracted hours, and gross monthly pay.
-4. ✉️ **Contemporaneous Evidence:**
-   * Place in `evidence/documents/`. Emails, WhatsApp messages, calendar entries, and GP fit notes from the time of incidents.
-5. 🔒 **Settlement Proposals / Severance Letters:**
-   * Place in `without_prejudice/`. Any letters marked *"Without Prejudice"* or *"s.111A Pre-termination Negotiations"*.
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 1. GATHER DOCUMENTS ──► Contract, Payslips, Policies, Proof  │
+│                                                             │
+│ 2. STEP 0 INTAKE     ──► AI asks 5 core questions            │
+│                                                             │
+│ 3. GROUND TRUTH LOCK ──► Math & Service thresholds verified  │
+│                                                             │
+│ 4. STATUTORY ROOT   ──► Real laws fetched (zero hallucination)│
+│                                                             │
+│ 5. ACTIONABLE PACK   ──► Grievance letters & lawyer briefs   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Step 1: Gather Your Foundational Documents
+Before you start, collect whatever documents you have and place them in the project folders:
+* 📄 **`evidence/documents/`**:
+  * **Employment Contract / Statement of Terms** *(to check notice periods, hours, pay)*.
+  * **Recent Payslips (Last 3 Months)** *(to lock in gross pay and hourly rate)*.
+  * **Workplace Policies** *(Grievance, Disciplinary, Sickness/Absence policies)*.
+  * **Contemporaneous Evidence** *(emails, text messages, notes, GP fit notes)*.
+* 🔒 **`without_prejudice/`**:
+  * Any draft settlement agreements, severance offers, or letters marked *"Without Prejudice"* or *"s.111A Pre-termination Negotiations"*.
+
+### Step 2: The Initial Intake Questions
+When you run `python3 setup.py` (or when your AI agent reads `AGENTS.md`), you will be guided through 5 simple questions:
+1. **Where do you work?** (e.g. *Scotland, England & Wales, Ontario, Nigeria*) — sets the legal jurisdiction.
+2. **What industry/sector?** (e.g. *Care/Nursing, Tech, Hospitality, Office Admin*) — discovers sector-specific regulators.
+3. **When did you start?** (Continuous start date) — calculates continuous service months.
+4. **What is your current status?** (e.g. *Employed, suspended on full pay, under investigation, dismissed, or offered a settlement*).
+5. **What was the trigger event?** (e.g. *Unresolved bullying grievance, sudden disciplinary invite, or received a settlement proposal*).
+
+### Step 3: The Ground Truth Lock
+The framework writes your information to **`evidence/facts.json`** and runs automated checks:
+* **Service Qualifying Gate:** Calculates whether you have the service length for ordinary unfair dismissal (e.g. 2 years in the UK). If not, it automatically locks the AI onto **Day-1 statutory protections** (Whistleblowing, Equality Act / Discrimination, Health & Safety, Unlawful Wage Deductions).
+* **Penny-Exact Arithmetic:** Verifies that your hourly rate, contracted hours, holiday pay balance, notice pay (PILON), and ex-gratia sums balance exactly to the penny.
+
+### Step 4: Live Case Building & Strategy
+Once initialised, you and your AI agent can safely:
+* Build an immutable, date-stamped chronology in **`case/log.md`**.
+* Classify evidence into reliable tiers (**T1** Contemporaneous, **T2** Recollection, **T3** Employer claim, **A** Analysis) via **`EVIDENTIARY_CONVENTIONS.md`**.
+* Calculate ACAS and tribunal limitation fuses via **`tools/limitation_calc.py`**.
+* Draft calm, assertive **Formal Grievance Letters** or **Solicitor Briefing Packs** using the templates in **`templates/`**.
 
 ---
 
@@ -40,8 +73,6 @@ If you have a terminal or code editor:
    ```bash
    python3 setup.py
    ```
-   *Follow the prompts for your location (e.g. Scotland, England, Nigeria, Ontario), industry sector, employment dates, and pay.*
-
 2. **Run the Invariant Test Suite:**
    ```bash
    python3 run_tests.py
@@ -60,8 +91,8 @@ If you have a terminal or code editor:
 
 ### Option B: Autonomous AI Agents (Claude Code, Cursor, Codex, Hermes)
 If you open this repository in an AI-powered coding tool:
-* The agent will automatically read **`AGENTS.md`**.
-* If `evidence/facts.json` is not yet populated, the agent will **automatically welcome you and ask the 5 initial setup questions** and help extract facts from your uploaded contract and payslips.
+* The agent automatically reads **`AGENTS.md`**.
+* If `evidence/facts.json` is not yet populated, the agent will **automatically welcome you, ask the 5 initial setup questions**, and extract numbers from your uploaded contracts and payslips.
 
 ---
 
