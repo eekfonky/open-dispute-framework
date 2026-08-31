@@ -1,77 +1,72 @@
 # Open Dispute Framework (ODF) ⚖️
 
-> **A sovereign, test-driven, anti-hallucination framework to empower unrepresented workers in employment grievances, settlement negotiations, and tribunal claims.**
+> **A sovereign, test-driven, and anti-hallucination framework designed to empower unrepresented workers in workplace disputes, grievances, and settlement negotiations.**
 
 ---
 
-## 🏔️ The Mission
+## 🌟 The Vision
 
-When workers face unfair treatment, toxic workplaces, or hostile settlement agreements, they face extreme institutional asymmetry. Employers have HR teams and retained employment lawyers; workers often have no representation and only access to commodity AI models that hallucinate law, garble arithmetic, and invent fake rights.
+Workplace disputes are among the most stressful events in a person's life. When an employee faces unfair treatment, constructive dismissal, or a sudden settlement agreement, the playing field is heavily tilted: employers have dedicated HR departments, retained solicitors, and institutional leverage, while the worker is often left alone.
 
-**Open Dispute Framework (ODF)** solves this by enforcing **deterministic mathematical gates**, **Stage 0 statutory grounding**, **evidentiary tiering**, and a **zero-dependency TDD test suite**. It guarantees that whether an employee is represented by Claude, Cursor, Codex, or a local model, the AI cannot drift into hallucinated citations or erroneous math.
+General-purpose AI can help, but commodity chatbots come with dangerous risks: they hallucinate laws from the wrong countries, invent non-existent statutory rights, and garble financial arithmetic.
 
----
-
-## 🛡️ Core Architectural Invariants
-
-| Layer | Guarantee | Tool / Invariant |
-| :--- | :--- | :--- |
-| **Arithmetic Integrity** | Hourly rates, hours, holiday pay, PILON, and package sums must mathematically reconcile to the exact penny. | `tools/verify_facts.py` |
-| **Statutory Service Gate** | Prevents AI from asserting Ordinary Unfair Dismissal if continuous service is below qualifying thresholds (e.g. <24m in UK). Forces Day-1 protections. | `tools/rights_gate.py` |
-| **Limitation Clocks** | Computes statutory filing fuses, conciliation windows, and reasonable settlement consideration periods deterministically. | `tools/limitation_calc.py` |
-| **Dynamic Legal Grounding** | Gathers and verifies primary labour statutes, dispute bodies, and sector regulators dynamically for **any country/sector** worldwide. | `tools/gather_law.py` |
-| **Evidentiary Tiering** | Segregates contemporaneous proof (T1), recollection (T2), employer claims (T3), and analysis (A). | `EVIDENTIARY_CONVENTIONS.md` |
-| **Without-Prejudice Quarantine** | Strict quarantine (`without_prejudice/`) preventing settlement talks from contaminating open claims. | `without_prejudice/` |
-| **Zero-Regex Privacy Linter** | Deterministic Luhn checksums and structural token analysis to prevent PII leaks. | `tools/verify_privacy.py` |
+**Open Dispute Framework (ODF)** is an open-source, mathematically grounded toolkit that turns any AI agent (Claude, Cursor, Codex, or a local model) into a precise, disciplined legal research and evidentiary compilation assistant. It replaces guesswork with **deterministic verification gates**, **service qualification checks**, **evidentiary tiering**, and **zero-dependency test suites**.
 
 ---
 
-## 🚀 Getting Started
+## 🛡️ Core Guarantees & Features
 
-### 1. Interactive Onboarding Wizard
-Run the setup wizard to initialise your case structure and ground truth data:
-```bash
-python3 setup.py
-```
-This prompts for:
-* **Jurisdiction & Industry Sector** (e.g. `Scotland / Social Care`, `Nigeria / Nursing`, `Ontario / Tech`).
-* **Continuous Start Date** & Trigger Dates.
-* **Hourly Rate & Weekly Hours** (automatically generates `evidence/facts.json`).
-
-### 2. Run the Deterministic Test Suite
-ODF uses Python's standard library `unittest` with **zero external dependencies** (`pip` or `pytest` not required):
-```bash
-python3 run_tests.py
-```
-
-### 3. Verify Facts & Calculate Fuses
-```bash
-# Verify financial math
-python3 tools/verify_facts.py
-
-# Check statutory rights & service gates
-python3 tools/rights_gate.py
-
-# Calculate critical tribunal deadlines & ACAS fuses
-python3 tools/limitation_calc.py
-
-# Pre-commit privacy & leak check
-python3 tools/verify_privacy.py
-```
+* 🧮 **Exact Financial Arithmetic:** All holiday pay, notice pay (PILON), monthly gross wages, and ex-gratia sums must balance to the penny via `tools/verify_facts.py`.
+* ⏱️ **Limitation Fuse Clocks:** Deterministically computes statutory deadlines (e.g. ACAS 3-month Early Conciliation limits in the UK, the 10-day settlement consideration window, and whistleblowing interim relief fuses).
+* 🚪 **Statutory Service Gates:** Calculates continuous employment service to prevent the AI from asserting rights requiring qualifying service (e.g. 2-year unfair dismissal in the UK), automatically forcing the agent to focus on Day-1 statutory protections (Whistleblowing Detriment, Equality Act / Discrimination, Health & Safety, and Unlawful Wage Deductions).
+* 🌍 **Dynamic Legal Ingestion (Worldwide):** Gathers and verifies primary labour statutes, dispute bodies, and sector regulators dynamically for **any country or region** across the globe without hardcoded regional bias.
+* 📑 **4-Tier Evidentiary Classification:** Strictly separates contemporaneous proof (T1), recollection (T2), employer assertions (T3), and legal analysis (A).
+* 🔒 **Without-Prejudice Quarantine:** Quarantines protected settlement discussions (`without_prejudice/`) to prevent them from contaminating open grievance letters or tribunal claim drafts.
+* 🛡️ **Zero-Regex Privacy Verification:** Uses deterministic Luhn checksums and structural token analysis to prevent accidental leaks of National Insurance numbers, bank details, and payment cards.
 
 ---
 
-## 🤖 For Standalone Chatbots (Claude, ChatGPT, Gemini)
+## 🚀 How to Use It
 
-If you cannot run Python or Git, you can copy the self-contained prompt bundle in **`ODF_STANDALONE_PROMPT.md`** and paste it directly into any web AI chat to instantly enforce all ODF guardrails.
+### Option A: Interactive Onboarding (Python / Terminal)
+If you have a terminal or code editor:
+
+1. **Initialise your case:**
+   ```bash
+   python3 setup.py
+   ```
+   *Follow the prompts for your location (e.g. Scotland, England, Nigeria, Ontario), industry sector, employment dates, and pay.*
+
+2. **Run the Invariant Test Suite:**
+   ```bash
+   python3 run_tests.py
+   ```
+   *(Uses Python's standard library `unittest` — zero `pip` or external dependencies required).*
+
+3. **Verify Facts & Deadlines:**
+   ```bash
+   python3 tools/verify_facts.py      # Verifies financial arithmetic
+   python3 tools/rights_gate.py       # Validates service qualifying periods
+   python3 tools/limitation_calc.py   # Computes critical tribunal fuses
+   python3 tools/verify_privacy.py    # Pre-commit privacy & leak check
+   ```
 
 ---
 
-## 📁 Repository Layout
+### Option B: Standalone Web Chatbot (No Installation Needed)
+If you do not have Python or Git, you can use ODF inside **Claude, ChatGPT, or Gemini**:
+
+1. Open **`ODF_STANDALONE_PROMPT.md`**.
+2. Copy the prompt block and paste it into your AI chat.
+3. The AI will immediately enforce all ODF arithmetic rules, statutory service gates, and anti-hallucination boundaries.
+
+---
+
+## 📁 Repository Structure
 
 ```
 open-dispute-framework/
-├── AGENTS.md                   # Strict execution rules for AI agents
+├── AGENTS.md                   # Universal execution rules for AI agents
 ├── EVIDENTIARY_CONVENTIONS.md  # 4-tier evidentiary standards & citation anchors
 ├── ODF_STANDALONE_PROMPT.md    # Copyable prompt bundle for web chatbots
 ├── run_tests.py                # Zero-dependency test runner
@@ -102,5 +97,16 @@ open-dispute-framework/
 
 ---
 
-## 📜 License
-Released under the **MIT License**. Free and open for workers, trade unions, legal advice clinics, and developers worldwide.
+## ⚖️ Legal Disclaimer
+
+> **IMPORTANT:** The Open Dispute Framework (ODF) is an open-source software and research tool designed to help workers organize evidence, verify mathematics, and compile case materials. 
+>
+> **ODF does not provide formal legal advice, establish an attorney-client relationship, or guarantee legal outcomes.** Employment laws, tribunal rules, and limitation periods vary across jurisdictions and change over time. 
+>
+> Users should always have their case, correspondence, and settlement agreements reviewed by a qualified employment solicitor, certified trade union representative, or authorized legal advice clinic (such as ACAS, Citizens Advice, or local Law Centres) before taking binding legal actions or signing agreements.
+
+---
+
+## 📜 License & Community
+
+Released under the **MIT License**. Free to use, adapt, and distribute for workers, trade unions, legal advice clinics, and software developers worldwide.
