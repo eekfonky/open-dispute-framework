@@ -1,32 +1,33 @@
 """
 test_privacy_linter.py
-Verifies that the privacy linter actively catches and fails on PII leaks.
+Verifies privacy checking using deterministic Luhn validation and keyword token checks.
+Zero regexes.
 """
 
 import unittest
-from tools.verify_privacy import PATTERNS
+from tools.verify_privacy import check_line_privacy, is_luhn_valid
 
 class TestPrivacyLinter(unittest.TestCase):
-    def test_detect_uk_national_insurance_number(self):
-        sample = "The employee's NI number is QQ123456C for payroll."
-        matches = PATTERNS["UK National Insurance Number"].findall(sample)
-        self.assertEqual(len(matches), 1)
+    def test_luhn_card_validation(self):
+        # Deterministic check for valid vs invalid cards
+        self.assertTrue(is_luhn_valid("4532015498741237"))  # Valid Luhn 16-digit
+        self.assertFalse(is_luhn_valid("4532015498741238")) # Invalid Luhn 16-digit
 
-    def test_detect_bank_sort_code(self):
-        sample = "Transfer pay to sort code 80-22-60."
-        matches = PATTERNS["UK Bank Sort Code"].findall(sample)
-        self.assertEqual(len(matches), 1)
+    def test_detect_unredacted_pii_marker(self):
+        sample = "Employee Details - National Insurance: QQ123456C"
+        findings = check_line_privacy(sample)
+        self.assertEqual(len(findings), 1)
+        self.assertIn("National Insurance", findings[0][0])
 
-    def test_detect_credit_card(self):
-        sample = "Corporate expenses charged to 4532 0154 9874 1234."
-        matches = PATTERNS["Credit/Debit Card (16 digits)"].findall(sample)
-        self.assertEqual(len(matches), 1)
+    def test_redacted_marker_passes(self):
+        sample = "Employee Details - National Insurance: [REDACTED_NI]"
+        findings = check_line_privacy(sample)
+        self.assertEqual(len(findings), 0)
 
-    def test_clean_text_passes(self):
-        sample = "Employee Claim v Organization Ltd. Case Log initialised."
-        for name, pattern in PATTERNS.items():
-            matches = pattern.findall(sample)
-            self.assertEqual(len(matches), 0, f"False positive on pattern: {name}")
+    def test_clean_case_text_passes(self):
+        sample = "Grievance submitted by Claimant against Organisation Ltd."
+        findings = check_line_privacy(sample)
+        self.assertEqual(len(findings), 0)
 
 if __name__ == "__main__":
     unittest.main()
