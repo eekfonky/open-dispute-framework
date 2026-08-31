@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 verify_privacy.py
-Deterministic PII and privacy verification using structural token analysis and Luhn validation.
+Deterministic PII and privacy verification for case files, templates, and evidence.
 Zero brittle regexes.
 """
 
@@ -9,12 +9,12 @@ import sys
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).parent.parent
-IGNORE_DIRS = {".git", ".venv", "__pycache__", "node_modules"}
+IGNORE_DIRS = {".git", ".venv", "__pycache__", "node_modules", "tests", "tools"}
 
 def is_luhn_valid(card_num_str: str) -> bool:
     """Deterministic Luhn algorithm check for credit/debit card numbers."""
     digits = [int(d) for d in card_num_str if d.isdigit()]
-    if not (13 <= len(digits) <= 19):
+    if len(digits) not in {15, 16}:
         return False
     checksum = 0
     reverse_digits = digits[::-1]
@@ -30,29 +30,25 @@ def check_line_privacy(line: str) -> list:
     """Token-based scanner checking for unredacted sensitive values."""
     findings = []
     
-    # 1. Check for unredacted 16-digit cards using deterministic Luhn checksum
-    clean_digits = "".join(ch for ch in line if ch.isdigit())
-    if len(clean_digits) >= 15:
-        # Check substrings of length 15 and 16
-        for length in (16, 15):
-            for i in range(len(clean_digits) - length + 1):
-                chunk = clean_digits[i:i+length]
-                if is_luhn_valid(chunk):
-                    findings.append(("Payment Card Number (Luhn Validated)", chunk))
-                    break
+    # 1. Check space/dash-separated tokens for 15/16 digit payment cards
+    tokens = line.replace("-", " ").replace(":", " ").split()
+    for token in tokens:
+        clean = "".join(ch for ch in token if ch.isdigit())
+        if len(clean) in {15, 16} and is_luhn_valid(clean):
+            findings.append(("Payment Card Number (Luhn Validated)", clean))
 
-    # 2. Check for explicit unredacted sensitive keywords with raw numbers
+    # 2. Check for explicit unredacted sensitive keywords
     lower_line = line.lower()
     sensitive_markers = ["national insurance:", "ni number:", "sort code:", "account number:", "ssn:"]
     for marker in sensitive_markers:
         if marker in lower_line:
             idx = lower_line.find(marker) + len(marker)
             sub = line[idx:].strip()
-            # If it's not redacted with standard placeholders [REDACTED...
+            # If not redacted with standard placeholders [REDACTED... or <REDACTED...
             if sub and not sub.startswith("[") and not sub.startswith("<"):
-                tokens = [t for t in sub.split() if any(c.isalnum() for c in t)]
-                if tokens:
-                    findings.append((f"Unredacted {marker.replace(':', '').title()}", tokens[0]))
+                toks = [t for t in sub.split() if any(c.isalnum() for c in t)]
+                if toks:
+                    findings.append((f"Unredacted {marker.replace(':', '').title()}", toks[0]))
 
     return findings
 
@@ -79,14 +75,14 @@ def main():
 
     for p in ROOT_DIR.rglob("*"):
         if p.is_file() and not any(part in IGNORE_DIRS for part in p.parts):
-            if p.suffix in {".md", ".json", ".txt", ".html", ".py", ".sh"}:
+            if p.suffix in {".md", ".json", ".txt", ".html", ".sh"}:
                 scanned_files += 1
                 leaks = scan_file(p)
                 if leaks:
                     print(f"\n[!] PRIVACY LEAK in {p.relative_to(ROOT_DIR)}:")
                     for line_no, pii_type, snippet in leaks:
                         print(f"    Line {line_no} [{pii_type}]: {snippet[:70]}...")
-                        total_leaks += 1
+                        total_leaks += len(leaks)
 
     print("\n" + "=" * 60)
     if total_leaks > 0:

@@ -36,15 +36,16 @@ def calculate_service_months(start_str: str, end_str: str) -> int:
 def evaluate_rights(facts: dict) -> dict:
     emp = facts.get("employment", {})
     jur = facts.get("jurisdiction", {})
+    dates = facts.get("dates", {})
     
-    start_date = emp.get("continuous_start_date")
-    end_date = emp.get("termination_date") or emp.get("draft_settlement_served_date")
+    start_date = emp.get("continuous_start_date") or emp.get("start_date")
+    end_date = emp.get("termination_date") or dates.get("last_incident_or_dismissal") or dates.get("settlement_proposal_served")
     country = jur.get("name", "scotland").lower()
     
     if not start_date:
-        return {"error": "Missing continuous_start_date"}
+        return {"error": "Missing start_date in facts.json"}
 
-    service_months = calculate_service_months(start_date, end_date)
+    service_months = emp.get("calculated_service_months") or calculate_service_months(start_date, end_date)
     threshold = QUALIFYING_THRESHOLDS_MONTHS.get(country, 24)
     
     has_ordinary_unfair_dismissal = service_months >= threshold
